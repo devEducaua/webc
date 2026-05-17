@@ -1,0 +1,48 @@
+.TH WEBC 7 "May 2026" "webc 1.0" "User Commands"
+
+.SH NAME
+webc \- a simple webd client.
+
+.SH SYNOPSIS
+webc 
+.IR [OPTIONS] [ARGS]
+
+.SH DESCRIPTION
+webc is a simple client for the Landd Browser Protocol.
+To use webc you will some LBP server running.
+
+.SH OPTIONS
+
+.TP
+.B get
+get's the current tab content.
+
+.TP
+.B new URL
+create a new tab with the giver url.
+
+.TP
+.B put URL
+change current tab url.
+
+.TP
+.B sel ID
+change current tab.
+
+.TP
+.B del ID
+closes a tab.
+
+.TP
+.B all
+get a list of all the tabs.
+
+.SH EXIT STATUS
+.P
+.IP o
+\fB0\fP \- Success
+.IP o
+\fB1\fP \- Syntax or usage error
+
+.SH NOTES
+url's needs to contain the scheme.
