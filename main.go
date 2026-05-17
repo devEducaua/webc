@@ -48,64 +48,72 @@ func parseArgs(argv []string) error {
 		if len(argv) < 2 {
 			return fmt.Errorf("tab command needs a subcommand");
 		}
-		sub := argv[1];
-		switch sub {
-		case "get":
-			tab, err := internal.TabGet();
-			if err != nil {
-				panic(err);
-			}
-			fmt.Println(tab.Content);
-		case "new":
-			if len(argv) < 3 {
-				return fmt.Errorf("ERROR: `tab new` command needs an url");
-			}
-			url := argv[2];
-			tab, err := internal.TabNew(url);
-			if err != nil {
-				panic(err);
-			}
-			fmt.Println(tab);
-		case "all":
-			list, err := internal.TabAll();
-			if err != nil {
-				return err;
-			}
-			for i,t := range list {
-				fmt.Printf("%v : %v\n", i, t.Title);
-			}
-		case "sel":
-			if len(argv) < 3 {
-				return fmt.Errorf("ERROR: `tab sel` command needs the tab id");
-			}
-			id, err := strconv.Atoi(argv[2]);
-			if err != nil {
-				return err;
-			}
-			tab, err := internal.TabSel(id);
-			if err != nil {
-				return err;
-			}
-			fmt.Println(tab.Content);
-		case "del":
-			if len(argv) < 3 {
-				return fmt.Errorf("ERROR: `tab del` command needs the tab id");
-			}
-			id, err := strconv.Atoi(argv[2]);
-			if err != nil {
-				return err;
-			}
-			err = internal.TabDel(id);
-			if err != nil {
-				return err;
-			}
-		default:
-			return fmt.Errorf("invalid subcommand to tab: %v", argv[1]);
+		err := parseTabSubcommands(argv);
+		if err != nil {
+			return err;
 		}
-
 	default:
 		return fmt.Errorf("invalid command: %v", argv[0]);
 	}
+	return nil;
+}
+
+func parseTabSubcommands(argv []string) error {
+	sub := argv[1];
+	switch sub {
+	case "get":
+		tab, err := internal.TabGet();
+		if err != nil {
+			return err;
+		}
+		fmt.Println(tab.Content);
+	case "new":
+		if len(argv) < 3 {
+			return fmt.Errorf("ERROR: `tab new` command needs an url");
+		}
+		url := argv[2];
+		tab, err := internal.TabNew(url);
+		if err != nil {
+			panic(err);
+		}
+		fmt.Println(tab);
+	case "all":
+		list, err := internal.TabAll();
+		if err != nil {
+			return err;
+		}
+		for i,t := range list {
+			fmt.Printf("%v : %v\n", i, t.Title);
+		}
+	case "sel":
+		if len(argv) < 3 {
+			return fmt.Errorf("ERROR: `tab sel` command needs the tab id");
+		}
+		id, err := strconv.Atoi(argv[2]);
+		if err != nil {
+			return err;
+		}
+		tab, err := internal.TabSel(id);
+		if err != nil {
+			return err;
+		}
+		fmt.Println(tab.Content);
+	case "del":
+		if len(argv) < 3 {
+			return fmt.Errorf("ERROR: `tab del` command needs the tab id");
+		}
+		id, err := strconv.Atoi(argv[2]);
+		if err != nil {
+			return err;
+		}
+		err = internal.TabDel(id);
+		if err != nil {
+			return err;
+		}
+	default:
+		return fmt.Errorf("invalid subcommand to tab: %v", argv[1]);
+	}
+
 	return nil;
 }
 
