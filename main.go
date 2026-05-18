@@ -97,7 +97,7 @@ func parseTabSubcommands(argv []string) error {
 		if err != nil {
 			return err;
 		}
-		fmt.Println(tab.Content);
+		fmt.Printf("changed to tab: %v\n", tab.Title);
 	case "del":
 		if len(argv) < 3 {
 			return fmt.Errorf("ERROR: `tab del` command needs the tab id");
@@ -110,6 +110,16 @@ func parseTabSubcommands(argv []string) error {
 		if err != nil {
 			return err;
 		}
+	case "put":
+		if len(argv) < 3 {
+			return fmt.Errorf("ERROR: `tab new` command needs an url");
+		}
+		url := argv[2];
+		tab, err := internal.TabNew(url);
+		if err != nil {
+			panic(err);
+		}
+		fmt.Println(tab);
 	default:
 		return fmt.Errorf("invalid subcommand to tab: %v", argv[1]);
 	}
